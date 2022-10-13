@@ -1,44 +1,24 @@
-import myDB from '../../db/db.js'
-import {ObjectId} from 'mongodb'
-import dotenv from 'dotenv/config'
+import Orders from '../../model/orders/orders.js'
 
 const NAME_DB_ORDERS=process.env.NAME_DB_ORDERS
 
-const getCollection = async (db,name) => {
-    const client = await db
-    const collection=await client.db().collection(name)
-    return collection
-}
 const getAll = async () => {
-    const collection = await getCollection(myDB, NAME_DB_ORDERS)
-    const result = await collection.find({}).toArray()
+    const result = await Orders.find({})
     return result
 }
 const getById = async (id) => {
-    const collection = await getCollection(myDB, NAME_DB_ORDERS)
-    const objId = new ObjectId(id)
-    console.log(objId)
-    const [result] = await collection.find({ _id: objId }).toArray()
+    const result = await Orders.findOne({ _id: id })
     return result
 }
 const create = async (body) => {
-    const collection = await getCollection(myDB, NAME_DB_ORDERS)
-    const record = {
-        ...body
-    }
-    // const result = await collection.insertOne(record)
-    return await collection.insertOne(record)
+    return await Orders.create(body)
 }
 const remove = async (id) => {
-    const collection = await getCollection(myDB, NAME_DB_ORDERS)
-    const objId = new ObjectId(id)
-    const result = collection.findOneAndDelete({ _id: objId })
+    const result = Orders.findOneAndRemove({ _id: id })
     return result
 }
 const update = async (id, body) => {
-    const collection = await getCollection(myDB, NAME_DB_ORDERS)
-    const objId = new ObjectId(id)
-    const result = await collection.findOneAndUpdate({ _id: objId }, { $set: body }, { returnOriginal: false })
+    const result = await Orders.findOneAndUpdate({ _id: id }, { ...body })
     return result
 }
 
