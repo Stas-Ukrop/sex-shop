@@ -1,7 +1,5 @@
 import Orders from '../../model/orders/orders.js'
 
-const NAME_DB_ORDERS=process.env.NAME_DB_ORDERS
-
 const getAll = async () => {
     const result = await Orders.find({})
     return result

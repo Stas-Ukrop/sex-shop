@@ -4,7 +4,7 @@ const ordersSchema = new Schema({
     name: String,
     phone: String,
     street: String,
-    building: Number,
+    building: String,
     orders: {
         type: Array,
     },
